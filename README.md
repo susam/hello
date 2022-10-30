@@ -2,9 +2,9 @@ Programming "Hello, World" in MS-DOS
 ====================================
 
 The program `HELLO.COM` was developed on MS-DOS Version 6.22 using the
-DOS program named `DEBUG.EXE`. It is exactly 28 bytes in length. It
+DOS program named `DEBUG.EXE`. It is exactly 23 bytes in length. It
 can be used to print the string "hello, world" followed by newline to
-standard output.xb
+standard output.
 
 
 Assemble
@@ -116,3 +116,10 @@ This software is provided "AS IS", WITHOUT WARRANTY OF ANY KIND,
 express or implied. See [LICENSE.md][L] for details.
 
 [L]: LICENSE.md
+
+
+More
+----
+
+If you liked this repository, see
+[reboot](https://github.com/susam/reboot).
