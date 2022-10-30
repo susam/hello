@@ -16,14 +16,13 @@ was written:
 ```
 C:\>DEBUG
 -A
-1165:0100 JMP 111
-1165:0102 DB 'hello, world', d, A, '$'
-1165:0111 MOV AH, 9
-1165:0113 MOV DX, 102
-1165:0116 INT 21
-1165:0118 MOV AH, 0
-1165:011A INT 21
-1165:011C
+1165:0100 MOV AH, 9
+1165:0102 MOV DX, 10B
+1165:0105 INT 21
+1165:0107 MOV AH, 0
+1165:0109 INT 21
+1165:010B DB 'hello, world', D, A, '$'
+1165:011A
 -G
 hello, world
 
@@ -31,10 +30,13 @@ Program terminated normally
 -N HELLO.COM
 -R CX
 CX 0000
-:1C
+:1A
 -W
-Writing 0001C bytes
+Writing 0001A bytes
 -Q
+
+C:\>HELLO
+hello, world
 
 C:\>
 ```
@@ -44,7 +46,7 @@ we write the binary machine code to. Also, note that the `W` (write)
 command expects the registers BX and CX to contain the number of bytes
 to be written to the file. When `DEBUG.EXE` starts, it already
 initializes BX to 0 automatically, so we only set the register CX to
-1C (decimal 28) with the `R CX` command above.
+1A (decimal 26) with the `R CX` command above.
 
 The debugger session inputs are archived in the file named
 `HELLO.TXT`, so the binary file named `HELLO.COM` can also be created
@@ -58,7 +60,7 @@ The binary executable file can be created on a Unix or Linux system
 using the `printf` command as follows:
 
 ```
-printf "\xEB\x0F\x68\x65\x6C\x6C\x6F\x2C\x20\x77\x6F\x72\x6C\x64\x0D\x0A\x24\xB4\x09\xBA\x02\x01\xCD\x21\xB4\x00\xCD\x21" > HELLO.COM
+printf '\xB4\x09\xBA\x0B\x01\xCD\x21\xB4\x00\xCD\x21\x68\x65\x6C\x6C\x6F\x2C\x20\x77\x6F\x72\x6C\x64\x0D\x0A\x24' > HELLO.COM
 ```
 
 
@@ -72,26 +74,25 @@ written correctly:
 C:\>DEBUG
 -N HELLO.COM
 -L
--U 100 11B
-117C:0100 EB0F          JMP     0111
-117C:0102 68            DB      68
-117C:0103 65            DB      65
-117C:0104 6C            DB      6C
-117C:0105 6C            DB      6C
-117C:0106 6F            DB      6F
-117C:0107 2C20          SUB     AL,20
-117C:0109 776F          JA      017A
-117C:010B 726C          JB      0179
-117C:010D 64            DB      64
-117C:010E 0D0A24        OR      AX,240A
-117C:0111 B409          MOV     AH,09
-117C:0113 BA0201        MOV     DX,0102
-117C:0116 CD21          INT     21
-117C:0118 B400          MOV     AH,00
-117C:011A CD21          INT     21
--D 100 11B
-117C:0100  EB 0F 68 65 6C 6C 6F 2C-20 77 6F 72 6C 64 0D 0A   ..hello, world..
-117C:0110  24 B4 09 BA 02 01 CD 21-B4 00 CD 21               $......!...!
+-U 100 119
+117C:0100 B409          MOV     AH,09
+117C:0102 BA0B01        MOV     DX,010B
+117C:0105 CD21          INT     21
+117C:0107 B400          MOV     AH,00
+117C:0109 CD21          INT     21
+117C:010B 68            DB      68
+117C:010C 65            DB      65
+117C:010D 6C            DB      6C
+117C:010E 6C            DB      6C
+117C:010F 6F            DB      6F
+117C:0110 2C20          SUB     AL,20
+117C:0112 776F          JA      0183
+117C:0114 726C          JB      0182
+117C:0116 64            DB      64
+117C:0117 0D0A24        OR      AX,240A
+-D 100 119
+117C:0100  B4 09 BA 0B 01 CD 21 B4-00 CD 21 68 65 6C 6C 6F   ......!...!hello
+117C:0110  2C 20 77 6F 72 6C 64 0D-0A 24                     , world..$
 ```
 
 
