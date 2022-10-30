@@ -1,6 +1,5 @@
 MOV AH, 9
-MOV DX, 10B
+MOV DX, 108
 INT 21
-MOV AH, 0
-INT 21
+RET
 DB 'hello, world', D, A, '$'

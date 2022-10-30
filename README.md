@@ -14,15 +14,14 @@ Here is the complete `DEBUG.EXE` session that shows how this program
 was written:
 
 ```
-C:\>DEBUG
+C:\>debug
 -A
 1165:0100 MOV AH, 9
-1165:0102 MOV DX, 10B
+1165:0102 MOV DX, 108
 1165:0105 INT 21
-1165:0107 MOV AH, 0
-1165:0109 INT 21
-1165:010B DB 'hello, world', D, A, '$'
-1165:011A
+1165:0107 RET
+1165:0108 DB 'hello, world', D, A, '$'
+1165:0117
 -G
 hello, world
 
@@ -30,9 +29,9 @@ Program terminated normally
 -N HELLO.COM
 -R CX
 CX 0000
-:1A
+:17
 -W
-Writing 0001A bytes
+Writing 00017 bytes
 -Q
 
 C:\>HELLO
@@ -60,7 +59,7 @@ The binary executable file can be created on a Unix or Linux system
 using the `printf` command as follows:
 
 ```
-printf '\xB4\x09\xBA\x0B\x01\xCD\x21\xB4\x00\xCD\x21\x68\x65\x6C\x6C\x6F\x2C\x20\x77\x6F\x72\x6C\x64\x0D\x0A\x24' > HELLO.COM
+printf '\xB4\x09\xBA\x08\x01\xCD\x21\xC3\x68\x65\x6C\x6C\x6F\x2C\x20\x77\x6F\x72\x6C\x64\x0D\x0A\x24' > HELLO.COM
 ```
 
 
@@ -74,25 +73,24 @@ written correctly:
 C:\>DEBUG
 -N HELLO.COM
 -L
--U 100 119
+-U 100 116
 117C:0100 B409          MOV     AH,09
-117C:0102 BA0B01        MOV     DX,010B
+117C:0102 BA0801        MOV     DX,0108
 117C:0105 CD21          INT     21
-117C:0107 B400          MOV     AH,00
-117C:0109 CD21          INT     21
-117C:010B 68            DB      68
-117C:010C 65            DB      65
-117C:010D 6C            DB      6C
-117C:010E 6C            DB      6C
-117C:010F 6F            DB      6F
-117C:0110 2C20          SUB     AL,20
-117C:0112 776F          JA      0183
-117C:0114 726C          JB      0182
-117C:0116 64            DB      64
-117C:0117 0D0A24        OR      AX,240A
--D 100 119
-117C:0100  B4 09 BA 0B 01 CD 21 B4-00 CD 21 68 65 6C 6C 6F   ......!...!hello
-117C:0110  2C 20 77 6F 72 6C 64 0D-0A 24                     , world..$
+117C:0107 C3            RET
+117C:0108 68            DB      68
+117C:0109 65            DB      65
+117C:010A 6C            DB      6C
+117C:010B 6C            DB      6C
+117C:010C 6F            DB      6F
+117C:010D 2C20          SUB     AL,20
+117C:010F 776F          JA      0180
+117C:0111 726C          JB      017F
+117C:0113 64            DB      64
+117C:0114 0D0A24        OR      AX,240A
+-D 100 116
+117C:0100  B4 09 BA 08 01 CD 21 C3-68 65 6C 6C 6F 2C 20 77   ......!.hello, w
+117C:0110  6F 72 6C 64 0D 0A 24                              orld..$
 ```
 
 
