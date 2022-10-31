@@ -45,7 +45,7 @@ we write the binary machine code to. Also, note that the `W` (write)
 command expects the registers BX and CX to contain the number of bytes
 to be written to the file. When `DEBUG.EXE` starts, it already
 initializes BX to 0 automatically, so we only set the register CX to
-1A (decimal 26) with the `R CX` command above.
+17 (decimal 23) with the `R CX` command above.
 
 The debugger session inputs are archived in the file named
 `HELLO.TXT`, so the binary file named `HELLO.COM` can also be created
