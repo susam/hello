@@ -43,9 +43,9 @@ C:\>
 Note that the `N` (name) command specifies the name of the file where
 we write the binary machine code to. Also, note that the `W` (write)
 command expects the registers BX and CX to contain the number of bytes
-to be written to the file. When `DEBUG.EXE` starts, it already
-initializes BX to 0 automatically, so we only set the register CX to
-17 (decimal 23) with the `R CX` command above.
+to be written to the file. When `DEBUG.EXE` starts, BX is already
+initialized to 0, so we only set the register CX to 17 (decimal 23)
+with the `R CX` command above.
 
 The debugger session inputs are archived in the file named
 `HELLO.TXT`, so the binary file named `HELLO.COM` can also be created
@@ -108,12 +108,56 @@ HELLO
 Credits
 -------
 
-- [userbinator](https://news.ycombinator.com/user?id=userbinator) for
-  suggesting that `MOV AH, 0` and `INT 21` instructions to terminate
-  the program can be replaced with `RET` thus saving 3 bytes.
 - [colejohnson66](https://news.ycombinator.com/user?id=colejohnson66)
   for suggesting that moving the string from top to bottom avoids a
   `JMP` instruction thus saving 2 bytes.
+- [userbinator](https://news.ycombinator.com/user?id=userbinator) for
+  suggesting that `MOV AH, 0` and `INT 21` instructions to terminate
+  the program can be replaced with `RET` thus saving 3 bytes.
+
+
+INT 20 vs. RET
+--------------
+
+Another way to terminate a program, especially with .COM programs, is
+to simply use `INT 20`. This consumes 2 bytes: `CD 20`.
+
+While producing the smallest possible executable is not the goal of
+this project, this project indulges in a little bit of size reduction
+by using `RET` to terminate the program. This consumes 1 byte: `C3`.
+This works because when a .COM file starts up, the register SP
+contains FFFE. The stack memory locations at offset FFFE and FFFF
+contain 00 and 00, respectively. Further, the memory address offset
+0000 contains the instruction `INT 20`.
+
+```
+C:\>DEBUG HELLO.COM
+-R SP
+SP FFFE
+:
+-D FFFE
+117C:FFF0                                            00 00
+-U 0 1
+117C:0000 CD20          INT     20
+```
+
+As a result, executing a `RET` instruction pops 0000 off the stack at
+FFFE and loads it into IP. This results in the intstruction `INT 20`
+at offset 0000 getting executed which leads to program termination.
+
+While both `INT 20` and `RET` lead to successful program termination
+both in DOS as well as while debugging with `DEBUG.EXE`, there is some
+difference between them which affects the debugging experience.
+Terminating the program with `INT 20` allows us to run the program
+repeatedly within the debugger by repeated applications of the `G`
+debugger command. But when we terminate the program with `RET`, we
+cannot run the program repeatedly with `G`. The program runs and
+terminates successfully the first time we run it with `G` but the
+stack does not get reinitialized with zeros to prepare it for
+subsequent usage of `G`. Therefore on a subsequenct run of `G` the
+program does not terminate successfully. It hangs instead. It is
+possible to work around this by reinitializing the stack with the
+debugger command `E FFFE 0 0` before running `G` again.
 
 
 License
