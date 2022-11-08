@@ -119,16 +119,17 @@ Credits
 INT 20 vs. RET
 --------------
 
-Another way to terminate a program, especially with .COM programs, is
-to simply use `INT 20`. This consumes 2 bytes: `CD 20`.
+Another way to terminate a .COM program is to simply use the
+instruction `INT 20`. This consumes two bytes in the machine code: `CD
+20`.
 
 While producing the smallest possible executable is not the goal of
 this project, this project indulges in a little bit of size reduction
-by using `RET` to terminate the program. This consumes 1 byte: `C3`.
-This works because when a .COM file starts up, the register SP
-contains FFFE. The stack memory locations at offset FFFE and FFFF
-contain 00 and 00, respectively. Further, the memory address offset
-0000 contains the instruction `INT 20`.
+by using the `RET` instruction to terminate the program. This consumes
+only one byte: `C3`. This works because when a .COM file starts, the
+register SP contains FFFE. The stack memory locations at offset FFFE
+and FFFF contain 00 and 00, respectively. Further, the memory address
+offset 0000 contains the instruction `INT 20`.
 
 ```
 C:\>DEBUG HELLO.COM
@@ -141,9 +142,10 @@ SP FFFE
 117C:0000 CD20          INT     20
 ```
 
-As a result, executing a `RET` instruction pops 0000 off the stack at
-FFFE and loads it into IP. This results in the intstruction `INT 20`
-at offset 0000 getting executed which leads to program termination.
+As a result, executing the `RET` instruction pops 0000 off the stack
+at FFFE and loads it into IP. This results in the intstruction `INT
+20` at offset 0000 getting executed which leads to program
+termination.
 
 While both `INT 20` and `RET` lead to successful program termination
 both in DOS as well as while debugging with `DEBUG.EXE`, there is some
@@ -151,10 +153,11 @@ difference between them which affects the debugging experience.
 Terminating the program with `INT 20` allows us to run the program
 repeatedly within the debugger by repeated applications of the `G`
 debugger command. But when we terminate the program with `RET`, we
-cannot run the program repeatedly with `G`. The program runs and
-terminates successfully the first time we run it with `G` but the
-stack does not get reinitialized with zeros to prepare it for
-subsequent usage of `G`. Therefore on a subsequenct run of `G` the
+cannot run the program repeatedly in this manner. The program runs and
+terminates successfully the first time we run it in the debugger but
+the stack does not get reinitialized with zeros to prepare it for
+another execution of the program within the debugger. Therefore when
+we try to run the program the second time using the `G` command, the
 program does not terminate successfully. It hangs instead. It is
 possible to work around this by reinitializing the stack with the
 debugger command `E FFFE 0 0` before running `G` again.
