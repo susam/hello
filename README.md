@@ -10,8 +10,8 @@ standard output.
 Assemble
 --------
 
-Here is the complete `DEBUG.EXE` session that shows how this program
-was written:
+Here is the complete `DEBUG.EXE` that creates a "hello, world" program
+and writes it to the boot sector of C: drive:
 
 ```
 C:\>debug
@@ -59,7 +59,7 @@ The binary executable file can be created on a Unix or Linux system
 using the `printf` command as follows:
 
 ```
-printf '\xB4\x09\xBA\x08\x01\xCD\x21\xC3\x68\x65\x6C\x6C\x6F\x2C\x20\x77\x6F\x72\x6C\x64\x0D\x0A\x24' > HELLO.COM
+echo B4 09 BA 08 01 CD 21 C3 68 65 6C 6C 6F 2C 20 77 6F 72 6C 64 0D 0A 24 | xxd -r -p > HELLO.COM
 ```
 
 
