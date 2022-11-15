@@ -105,17 +105,6 @@ HELLO
 ```
 
 
-Credits
--------
-
-- [colejohnson66](https://news.ycombinator.com/user?id=colejohnson66)
-  for suggesting that moving the string from top to bottom avoids a
-  `JMP` instruction thus saving 2 bytes.
-- [userbinator](https://news.ycombinator.com/user?id=userbinator) for
-  suggesting that `MOV AH, 0` and `INT 21` instructions to terminate
-  the program can be replaced with `RET` thus saving 3 bytes.
-
-
 INT 20 vs. RET
 --------------
 

@@ -10,8 +10,8 @@ Changelog
 2022-10-30
 ----------
 
-- Move the string to the bottom to avoid `JMP` instruction and save two bytes.
-- Use `RET` instead of `MOV AH, 0` and `INT 21` to terminate program.
+- Move string to bottom and avoid `JMP`. (credit: colejohnson66)
+- Use `RET` instead of `INT 21` to terminate program. (credit: userbinator)
 
 
 2003-01-09
