@@ -169,9 +169,8 @@ More
 ----
 
 The example presented in this document relies on `INT 21` which is a
-DOS service. There are some more examples in the [ALT](ALT)
-subdirectory that has some more examples of "hello, world" programs
-that do not rely on DOS services.
+DOS service. See the [ALT](ALT) subdirectory for example programs that
+do not rely on DOS services.
 
 There is also a 5-byte reboot program available at
 [github.com/susam/reboot](https://github.com/susam/reboot).
