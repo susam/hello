@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2022-11-15
+----------
+
+- Add `ALT` directory with example programs that do not depend on DOS services.
+
+
 2022-10-30
 ----------
 
