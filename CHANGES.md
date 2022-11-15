@@ -4,6 +4,7 @@ Changelog
 2022-11-15
 ----------
 
+- Change Linux commands in README to use `xxd` instead of `printf`.
 - Add `ALT` directory with example programs that do not depend on DOS services.
 
 
