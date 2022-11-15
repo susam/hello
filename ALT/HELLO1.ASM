@@ -1,0 +1,9 @@
+MOV AX, 1300
+MOV BX, A
+MOV CX, C
+XOR DX, DX
+MOV BP, 113
+INT 10
+HLT
+JMP 110
+DB 'hello, world'

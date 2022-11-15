@@ -1,0 +1,10 @@
+JMP 0:7C05
+MOV AX, 1300
+MOV BX, A
+MOV CX, C
+XOR DX, DX
+MOV BP, 7C18
+INT 10
+HLT
+JMP 115
+DB 'hello, world'
