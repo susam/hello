@@ -10,8 +10,8 @@ standard output.
 Assemble
 --------
 
-Here is the complete `DEBUG.EXE` that creates a "hello, world" program
-and writes it to the boot sector of C: drive:
+Here is the complete `DEBUG.EXE` session that creates a "hello, world"
+program:
 
 ```
 C:\>debug
@@ -170,7 +170,9 @@ More
 
 The example presented in this document relies on `INT 21` which is a
 DOS service. See the [ALT](ALT) subdirectory for example programs that
-do not rely on DOS services.
+do not rely on DOS services. These additional examples also show how
+to create boot sector programs that print "hello, world" on booting
+the computer.
 
 There is also a 5-byte reboot program available at
 [github.com/susam/reboot](https://github.com/susam/reboot).
